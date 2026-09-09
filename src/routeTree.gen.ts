@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DonateRouteImport } from './routes/donate'
+import { Route as VolunteerRouteImport } from './routes/volunteer'
+import { Route as FocusAreasIndexRouteImport } from './routes/focus-areas.index'
+import { Route as FocusAreasSlugRouteImport } from './routes/focus-areas.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonateRoute = DonateRouteImport.update({
+  id: '/donate',
+  path: '/donate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VolunteerRoute = VolunteerRouteImport.update({
+  id: '/volunteer',
+  path: '/volunteer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FocusAreasIndexRoute = FocusAreasIndexRouteImport.update({
+  id: '/focus-areas/',
+  path: '/focus-areas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FocusAreasSlugRoute = FocusAreasSlugRouteImport.update({
+  id: '/focus-areas/$slug',
+  path: '/focus-areas/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/donate': typeof DonateRoute
+  '/volunteer': typeof VolunteerRoute
+  '/focus-areas/$slug': typeof FocusAreasSlugRoute
+  '/focus-areas/': typeof FocusAreasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/donate': typeof DonateRoute
+  '/volunteer': typeof VolunteerRoute
+  '/focus-areas/$slug': typeof FocusAreasSlugRoute
+  '/focus-areas': typeof FocusAreasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/donate': typeof DonateRoute
+  '/volunteer': typeof VolunteerRoute
+  '/focus-areas/$slug': typeof FocusAreasSlugRoute
+  '/focus-areas/': typeof FocusAreasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/donate'
+    | '/volunteer'
+    | '/focus-areas/$slug'
+    | '/focus-areas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/donate'
+    | '/volunteer'
+    | '/focus-areas/$slug'
+    | '/focus-areas'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/donate'
+    | '/volunteer'
+    | '/focus-areas/$slug'
+    | '/focus-areas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  DonateRoute: typeof DonateRoute
+  VolunteerRoute: typeof VolunteerRoute
+  FocusAreasSlugRoute: typeof FocusAreasSlugRoute
+  FocusAreasIndexRoute: typeof FocusAreasIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donate': {
+      id: '/donate'
+      path: '/donate'
+      fullPath: '/donate'
+      preLoaderRoute: typeof DonateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/volunteer': {
+      id: '/volunteer'
+      path: '/volunteer'
+      fullPath: '/volunteer'
+      preLoaderRoute: typeof VolunteerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/focus-areas/': {
+      id: '/focus-areas/'
+      path: '/focus-areas'
+      fullPath: '/focus-areas/'
+      preLoaderRoute: typeof FocusAreasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/focus-areas/$slug': {
+      id: '/focus-areas/$slug'
+      path: '/focus-areas/$slug'
+      fullPath: '/focus-areas/$slug'
+      preLoaderRoute: typeof FocusAreasSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  DonateRoute: DonateRoute,
+  VolunteerRoute: VolunteerRoute,
+  FocusAreasSlugRoute: FocusAreasSlugRoute,
+  FocusAreasIndexRoute: FocusAreasIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
