@@ -147,7 +147,7 @@ function Index() {
               className="h-full w-full object-cover"
               width={1920}
               height={800}
-              priority
+              loading="eager"
             />
           </div>
         </div>
@@ -192,10 +192,11 @@ function Index() {
                 07 / 07
               </span>
               <h3 className="mb-4 font-serif text-3xl transition-transform group-hover:translate-x-2">
-                {pillars[6].title}
+                Rural & Community Development
               </h3>
               <p className="max-w-md text-sm leading-relaxed text-primary/70">
-                {pillars[6].description}
+                Revitalizing the village heart of India through infrastructure,
+                clean water, and heritage-based vocational training.
               </p>
             </div>
           </div>
