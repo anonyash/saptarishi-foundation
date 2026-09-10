@@ -1,22 +1,38 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
-import logoAsset from "../assets/saptarishi-logo.png.asset.json";
-import { focusAreas } from "../data/areas";
-
-const navLink =
-  "transition-colors hover:text-primary";
+import logoAsset from "../assets/saptarishi-logo.png";
+import { focusAreas } from "../lib/focus-areas";
 
 export function SiteHeader() {
   const [openAreas, setOpenAreas] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
+  const areaLinks = (onNavigate?: () => void) =>
+    focusAreas.map((area) => (
+      <Link
+        key={area.slug}
+        to="/focus-areas/$slug"
+        params={{ slug: area.slug }}
+        onClick={onNavigate}
+        className="flex items-start gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-primary/10"
+      >
+        <span className="mt-0.5 font-mono text-[10px] text-primary">
+          {area.number}
+        </span>
+        <span className="font-serif text-lg leading-tight">{area.title}</span>
+      </Link>
+    ));
+
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-3">
-          <img src={logoAsset.url} alt="Saptarishi Foundation" className="h-10 w-auto" />
-          <span className="font-serif text-xl font-semibold tracking-tight">Saptarishi</span>
+          <img src={logoAsset} alt="Saptarishi Foundation" className="h-10 w-auto" />
+          <span className="font-serif text-xl font-semibold tracking-tight">
+            Saptarishi Foundation
+          </span>
         </Link>
 
         <div className="hidden items-center gap-8 text-sm font-medium uppercase tracking-wide md:flex">
@@ -27,36 +43,38 @@ export function SiteHeader() {
           >
             <button
               type="button"
-              aria-expanded={openAreas}
               onClick={() => setOpenAreas((v) => !v)}
-              className={navLink}
+              className="flex items-center gap-1.5 uppercase transition-colors hover:text-primary"
+              aria-expanded={openAreas}
             >
               Focus Areas
+              <ChevronDown className="h-3.5 w-3.5" />
             </button>
-            {openAreas && (
-              <div className="absolute left-1/2 top-full w-80 -translate-x-1/2 pt-4">
-                <ul className="overflow-hidden rounded-xl border border-border bg-background shadow-xl">
-                  {focusAreas.map((area) => (
-                    <li key={area.slug}>
-                      <Link
-                        to="/focus/$area"
-                        params={{ area: area.slug }}
-                        onClick={() => setOpenAreas(false)}
-                        className="flex items-baseline gap-3 border-b border-border/60 px-5 py-3 text-xs normal-case tracking-normal last:border-b-0 hover:bg-primary/5 hover:text-primary"
-                      >
-                        <span className="font-mono text-[10px] text-primary">{area.number}</span>
-                        <span className="font-serif text-base">{area.title}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+            {openAreas ? (
+              <div className="absolute left-1/2 top-full w-[26rem] -translate-x-1/2 pt-4">
+                <div className="rounded-2xl border border-border bg-background p-2 normal-case shadow-xl">
+                  {areaLinks(() => setOpenAreas(false))}
+                  <Link
+                    to="/focus-areas"
+                    onClick={() => setOpenAreas(false)}
+                    className="mt-1 block border-t border-border px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-primary"
+                  >
+                    View all focus areas →
+                  </Link>
+                </div>
               </div>
-            )}
+            ) : null}
           </div>
 
-          <Link to="/about" className={navLink}>About Us</Link>
-          <Link to="/contact" className={navLink}>Contact</Link>
-          <Link to="/volunteer" className={navLink}>Volunteer</Link>
+          <Link to="/about" className="transition-colors hover:text-primary">
+            About Us
+          </Link>
+          <Link to="/contact" className="transition-colors hover:text-primary">
+            Contact
+          </Link>
+          <Link to="/volunteer" className="transition-colors hover:text-primary">
+            Volunteer
+          </Link>
           <Link
             to="/donate"
             className="rounded-full border border-primary/30 bg-accent px-5 py-2.5 text-primary transition-all hover:bg-primary hover:text-background"
@@ -67,41 +85,59 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="text-xs font-medium uppercase tracking-widest md:hidden"
+          className="md:hidden"
+          aria-label="Toggle menu"
           onClick={() => setOpenMobile((v) => !v)}
-          aria-expanded={openMobile}
         >
-          {openMobile ? "Close" : "Menu"}
+          {openMobile ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
-      {openMobile && (
-        <div className="border-t border-border bg-background px-6 py-6 md:hidden">
-          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+      {openMobile ? (
+        <div className="border-t border-border bg-background px-4 py-4 md:hidden">
+          <p className="px-4 pb-2 font-mono text-[10px] uppercase tracking-widest text-primary">
             Focus Areas
           </p>
-          <ul className="mb-6 space-y-2">
-            {focusAreas.map((area) => (
-              <li key={area.slug}>
-                <Link
-                  to="/focus/$area"
-                  params={{ area: area.slug }}
-                  onClick={() => setOpenMobile(false)}
-                  className="font-serif text-lg"
-                >
-                  {area.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="flex flex-col gap-3 text-sm uppercase tracking-wide">
-            <Link to="/about" onClick={() => setOpenMobile(false)}>About Us</Link>
-            <Link to="/contact" onClick={() => setOpenMobile(false)}>Contact</Link>
-            <Link to="/volunteer" onClick={() => setOpenMobile(false)}>Volunteer</Link>
-            <Link to="/donate" onClick={() => setOpenMobile(false)}>Donate</Link>
+          {areaLinks(() => setOpenMobile(false))}
+          <Link
+            to="/focus-areas"
+            onClick={() => setOpenMobile(false)}
+            className="mt-1 block border-t border-border px-4 py-3 font-mono text-[10px] uppercase tracking-widest text-primary"
+          >
+            View all focus areas →
+          </Link>
+          <div className="mt-3 flex flex-col border-t border-border pt-3">
+            <Link
+              to="/about"
+              onClick={() => setOpenMobile(false)}
+              className="rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-wide transition-colors hover:bg-primary/10"
+            >
+              About Us
+            </Link>
+            <Link
+              to="/contact"
+              onClick={() => setOpenMobile(false)}
+              className="rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-wide transition-colors hover:bg-primary/10"
+            >
+              Contact
+            </Link>
+            <Link
+              to="/volunteer"
+              onClick={() => setOpenMobile(false)}
+              className="rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-wide transition-colors hover:bg-primary/10"
+            >
+              Volunteer
+            </Link>
+            <Link
+              to="/donate"
+              onClick={() => setOpenMobile(false)}
+              className="rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-wide transition-colors hover:bg-primary/10"
+            >
+              Donate
+            </Link>
           </div>
         </div>
-      )}
+      ) : null}
     </nav>
   );
 }
