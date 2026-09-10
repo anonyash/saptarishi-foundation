@@ -14,7 +14,8 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DonateRouteImport } from './routes/donate'
 import { Route as VolunteerRouteImport } from './routes/volunteer'
-import { Route as FocusAreaRouteImport } from './routes/focus.$area'
+import { Route as FocusAreasIndexRouteImport } from './routes/focus-areas.index'
+import { Route as FocusAreasSlugRouteImport } from './routes/focus-areas.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,9 +42,14 @@ const VolunteerRoute = VolunteerRouteImport.update({
   path: '/volunteer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FocusAreaRoute = FocusAreaRouteImport.update({
-  id: '/focus/$area',
-  path: '/focus/$area',
+const FocusAreasIndexRoute = FocusAreasIndexRouteImport.update({
+  id: '/focus-areas/',
+  path: '/focus-areas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FocusAreasSlugRoute = FocusAreasSlugRouteImport.update({
+  id: '/focus-areas/$slug',
+  path: '/focus-areas/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -53,7 +59,8 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
   '/volunteer': typeof VolunteerRoute
-  '/focus/$area': typeof FocusAreaRoute
+  '/focus-areas/$slug': typeof FocusAreasSlugRoute
+  '/focus-areas/': typeof FocusAreasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,7 +68,8 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
   '/volunteer': typeof VolunteerRoute
-  '/focus/$area': typeof FocusAreaRoute
+  '/focus-areas/$slug': typeof FocusAreasSlugRoute
+  '/focus-areas': typeof FocusAreasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,14 +78,28 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/donate': typeof DonateRoute
   '/volunteer': typeof VolunteerRoute
-  '/focus/$area': typeof FocusAreaRoute
+  '/focus-areas/$slug': typeof FocusAreasSlugRoute
+  '/focus-areas/': typeof FocusAreasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/about' | '/contact' | '/donate' | '/volunteer' | '/focus/$area'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/donate'
+    | '/volunteer'
+    | '/focus-areas/$slug'
+    | '/focus-areas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/donate' | '/volunteer' | '/focus/$area'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/donate'
+    | '/volunteer'
+    | '/focus-areas/$slug'
+    | '/focus-areas'
   id:
     | '__root__'
     | '/'
@@ -85,7 +107,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/donate'
     | '/volunteer'
-    | '/focus/$area'
+    | '/focus-areas/$slug'
+    | '/focus-areas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,7 +117,8 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DonateRoute: typeof DonateRoute
   VolunteerRoute: typeof VolunteerRoute
-  FocusAreaRoute: typeof FocusAreaRoute
+  FocusAreasSlugRoute: typeof FocusAreasSlugRoute
+  FocusAreasIndexRoute: typeof FocusAreasIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -134,11 +158,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VolunteerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/focus/$area': {
-      id: '/focus/$area'
-      path: '/focus/$area'
-      fullPath: '/focus/$area'
-      preLoaderRoute: typeof FocusAreaRouteImport
+    '/focus-areas/': {
+      id: '/focus-areas/'
+      path: '/focus-areas'
+      fullPath: '/focus-areas/'
+      preLoaderRoute: typeof FocusAreasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/focus-areas/$slug': {
+      id: '/focus-areas/$slug'
+      path: '/focus-areas/$slug'
+      fullPath: '/focus-areas/$slug'
+      preLoaderRoute: typeof FocusAreasSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -150,7 +181,8 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DonateRoute: DonateRoute,
   VolunteerRoute: VolunteerRoute,
-  FocusAreaRoute: FocusAreaRoute,
+  FocusAreasSlugRoute: FocusAreasSlugRoute,
+  FocusAreasIndexRoute: FocusAreasIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
