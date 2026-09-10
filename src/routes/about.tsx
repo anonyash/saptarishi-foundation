@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
-import { focusAreas } from "../data/areas";
+import { SiteFooter } from "../components/SiteFooter";
+import { focusAreas } from "../lib/focus-areas";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -11,12 +11,13 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "Learn about Saptarishi Foundation, an India-based NGO working across education, women's empowerment, environment, health, animal welfare, and rural development.",
+          "Saptarishi Foundation is an India-based registered NGO inspired by the Seven Sages, working across seven pillars of community service.",
       },
       { property: "og:title", content: "About Us — Saptarishi Foundation" },
       {
         property: "og:description",
-        content: "Our story, values, and the seven pillars that guide our work across India.",
+        content:
+          "Our story, values, and the seven-pillar framework that guides our work across India.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -28,15 +29,19 @@ export const Route = createFileRoute("/about")({
 const values = [
   {
     title: "Dignity first",
-    body: "We work with communities, never above them. Every programme begins by listening to the people it serves.",
+    body: "We serve people, never cases. Every programme is designed so that those we work with keep their agency and pride.",
   },
   {
     title: "Rooted locally",
-    body: "Our volunteers live in the villages and towns we serve, so support continues long after a camp ends.",
+    body: "Our teams come from the villages and towns they serve, so decisions are made close to the ground.",
   },
   {
-    title: "Transparent by habit",
-    body: "Every rupee is tracked and reported. Donors are told exactly where their contribution went.",
+    title: "Measured honestly",
+    body: "We publish what worked and what did not. Trust is built on transparent numbers, not slogans.",
+  },
+  {
+    title: "Built to last",
+    body: "We prefer slow, durable change — collectives, skills, and infrastructure that outlive a project cycle.",
   },
 ];
 
@@ -44,81 +49,98 @@ function AboutPage() {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
       <SiteHeader />
-
       <main>
-        <section className="border-b border-border px-6 py-24">
-          <div className="mx-auto max-w-4xl">
-            <span className="mb-6 block font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
-              About Us
-            </span>
-            <h1 className="mb-8 font-serif text-5xl leading-tight text-balance md:text-7xl">
-              Seven sages, one shared <span className="italic text-primary">purpose</span>.
-            </h1>
-            <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
-              Saptarishi Foundation is an India-based non-profit named after the Seven
-              Sages. Their seven-fold wisdom shapes our seven pillars of service — from
-              the classroom to the forest, from the clinic to the village well.
-            </p>
-          </div>
-        </section>
-
-        <section className="px-6 py-20">
-          <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
-            <div>
-              <h2 className="mb-4 font-serif text-3xl">Our story</h2>
-              <p className="leading-relaxed text-muted-foreground">
-                What began as a small circle of volunteers distributing school kits has
-                grown into a foundation working across villages and districts. Our teams
-                run learning centres, women's collectives, health camps, plantation
-                drives, and animal rescue lines — each led by people from the community.
-              </p>
-            </div>
-            <div>
-              <h2 className="mb-4 font-serif text-3xl">Our mission</h2>
-              <p className="leading-relaxed text-muted-foreground">
-                To build an India where every individual has the shade of opportunity and
-                the soil of support — regardless of where they were born, what they own,
-                or which language they speak.
-              </p>
-            </div>
-          </div>
+        <section className="mx-auto max-w-4xl px-6 py-20">
+          <span className="mb-4 block font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+            About us
+          </span>
+          <h1 className="mb-8 font-serif text-5xl text-balance md:text-7xl">
+            Inspired by the Seven Sages.
+          </h1>
+          <p className="mb-6 text-lg leading-relaxed text-muted-foreground">
+            Saptarishi Foundation is an India-based registered non-profit working
+            with rural and urban communities that sit outside the reach of most
+            services. The name comes from the Saptarishi — the seven sages of
+            Indian tradition, each a guardian of knowledge and welfare. Our seven
+            areas of work follow the same idea: no single effort is enough on its
+            own, but together they hold a community upright.
+          </p>
+          <p className="text-lg leading-relaxed text-muted-foreground">
+            We began with a handful of volunteers running evening classes in a
+            single village. Today our teams work across hundreds of villages in
+            education, women's empowerment, environment and disaster relief,
+            support for the underprivileged, animal welfare, health awareness,
+            and rural development.
+          </p>
         </section>
 
         <section className="bg-accent px-6 py-20 text-background">
-          <div className="mx-auto max-w-5xl">
-            <h2 className="mb-12 font-serif text-4xl">What we stand for</h2>
-            <div className="grid gap-px border border-primary/20 bg-primary/20 md:grid-cols-3">
-              {values.map((value) => (
-                <div key={value.title} className="bg-accent p-8">
-                  <h3 className="mb-3 font-serif text-2xl">{value.title}</h3>
-                  <p className="text-sm leading-relaxed text-primary/70">{value.body}</p>
-                </div>
-              ))}
+          <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
+            <div>
+              <h2 className="mb-4 font-serif text-4xl">Our mission</h2>
+              <p className="leading-relaxed text-primary/80">
+                To build an India where every individual has the shade of
+                opportunity and the soil of support — regardless of where they
+                were born.
+              </p>
+            </div>
+            <div>
+              <h2 className="mb-4 font-serif text-4xl">Our vision</h2>
+              <p className="leading-relaxed text-primary/80">
+                Self-reliant communities that no longer need us — where local
+                leadership, especially women's leadership, sustains progress
+                without outside help.
+              </p>
             </div>
           </div>
         </section>
 
-        <section className="px-6 py-20">
+        <section className="mx-auto max-w-5xl px-6 py-20">
+          <h2 className="mb-12 font-serif text-4xl">What we stand for</h2>
+          <div className="grid gap-px border border-border bg-border md:grid-cols-2">
+            {values.map((value) => (
+              <div key={value.title} className="bg-background p-8">
+                <h3 className="mb-3 font-serif text-2xl">{value.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {value.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="border-t border-border px-6 py-20">
           <div className="mx-auto max-w-5xl">
             <h2 className="mb-8 font-serif text-4xl">Where we work</h2>
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap gap-3">
               {focusAreas.map((area) => (
-                <li key={area.slug}>
-                  <Link
-                    to="/focus/$area"
-                    params={{ area: area.slug }}
-                    className="block h-full rounded-xl border border-border p-6 transition-colors hover:border-primary/50 hover:bg-primary/5"
-                  >
-                    <span className="font-mono text-[10px] text-primary">{area.number} / 07</span>
-                    <span className="mt-2 block font-serif text-xl">{area.title}</span>
-                  </Link>
-                </li>
+                <Link
+                  key={area.slug}
+                  to="/focus-areas/$slug"
+                  params={{ slug: area.slug }}
+                  className="rounded-full border border-border px-5 py-2.5 text-sm transition-colors hover:border-primary hover:text-primary"
+                >
+                  {area.title}
+                </Link>
               ))}
-            </ul>
+            </div>
+            <div className="mt-12 flex flex-col gap-4 sm:flex-row">
+              <Link
+                to="/donate"
+                className="rounded-full bg-accent px-10 py-4 text-center font-medium text-background transition-all hover:shadow-xl"
+              >
+                Donate
+              </Link>
+              <Link
+                to="/contact"
+                className="rounded-full border border-accent/20 px-10 py-4 text-center font-medium text-accent transition-all hover:bg-accent/5"
+              >
+                Contact us
+              </Link>
+            </div>
           </div>
         </section>
       </main>
-
       <SiteFooter />
     </div>
   );
